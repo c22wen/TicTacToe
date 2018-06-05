@@ -13,30 +13,7 @@
 
 #endif /* tictactoe_h */
 
-//============ PRINT FUNCTION ===============
-// see tictactoe.c for details
-void print_board(const char board[]);
 
-//============ SOLVED FUNCTIONS ===============
-// see tictactoe.c for details
-int row_solved(const char board[]);
-
-// see tictactoe.c for details
-int col_solved(const char board[]);
-
-// see tictactoe.c for details
-int diag_solved(const char board[]);
-
-// see tictactoe.c for details
-int is_solved(const char board[]);
-
-// see tictactoe.c for details
-int is_full(const char board[]);
-
-//============ INSERT FUNCTION ===============
-/// see tictactoe.c for details
-int insert(int player, int pos, char board[]);
-
-//============ PLAY_GAME FUNCTION ===============
-// see tictactoe.c for details
+// play_game() starts the game of Tic Tac Toe
+// effects: displays messages
 void play_game(void);

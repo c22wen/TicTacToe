@@ -5,13 +5,12 @@
 //  Created by Christina Wen on 2018-06-04.
 //
 
-
 #include "tictactoe.h"
 
-//============ PRINT FUNCTION ===============
+
 // print_board(board) prints the game board in progress
 // effects: prints out game
-void print_board(const char board[]){
+static void print_board(const char board[]){
     assert(board);
     printf("\n");
     for(int row = 0; row < 3; ++row){
@@ -25,9 +24,13 @@ void print_board(const char board[]){
     }
 }
 
+
 //============ SOLVED FUNCTIONS ===============
+
 // row_solved(board) determines if there is a row of three in board
-int row_solved(const char board[]){
+// requires: board is valid
+
+static int row_solved(const char board[]){
     assert(board);
     for(int row = 0; row <3; ++row){
         int pos = row*3 + 1;
@@ -43,8 +46,11 @@ int row_solved(const char board[]){
     return 0;
 }
 
+
 // col_solved(board) determines if there is a column of three in the board
-int col_solved(const char board[]){
+// requires: board is valid
+
+static int col_solved(const char board[]){
     assert(board);
     for(int col = 3; col < 6; ++col){
         if(board[col] == '*'){
@@ -59,8 +65,11 @@ int col_solved(const char board[]){
     return 0;
 }
 
+
 // diag_solved(board) determines if there is a diagonal of three in the board
-int diag_solved(const char board[]){
+// requires: board is valid
+
+static int diag_solved(const char board[]){
     assert(board);
     if(board[4] == '*'){
         return 0;
@@ -75,14 +84,20 @@ int diag_solved(const char board[]){
     }
 }
 
+
 // is_solved(board) determines if there is three in a row in the board
-int is_solved(const char board[]){
+// requires: board is valid
+
+static int is_solved(const char board[]){
     assert(board);
     return (diag_solved(board) || col_solved(board) || row_solved(board));
 }
 
+
 // is_full(board) determines if there are any more empty spaces in board
-int is_full(const char board[]){
+// requires: board is valid
+
+static int is_full(const char board[]){
     assert(board);
     int count = 0;
     for(int i = 0; i < 9; ++i){
@@ -99,8 +114,12 @@ int is_full(const char board[]){
 //      the pos-th square of board
 // effects: changes board
 // returns: 0 if board is successfully changed
-//             1 if the insert was unsuccessful
-int insert(int player, int pos, char board[]){
+//          1 if the insert was unsuccessful
+// requires: board is valid
+//           player is either 0 or 1
+//           0 <= pos < 9
+
+static int insert(int player, int pos, char board[]){
     assert(board);
     assert((player == 0)||(player == 1));
     assert((pos >= 0)&&(pos < 9));
@@ -109,18 +128,15 @@ int insert(int player, int pos, char board[]){
     } else if (player == 0){
         board[pos] = 'X';
         return 0;
-    } else if (player == 1){
+    } else{
         board[pos] = 'O';
         return 0;
-    } else {
-        return 1;
     }
 }
 
 //============ PLAY_GAME FUNCTION ===============
 
-// play_game() starts the game of Tic Tac Toe
-// effects: displays messages
+// see tictactoe.h for details
 
 void play_game(){
     // variables
@@ -160,16 +176,15 @@ void play_game(){
         while(1){ // Players alternate
             printf("Player %d, your turn:", turn+1);
             retval = scanf("%d", &pos);
-            if((retval == 1)&&
-               (pos > 0)&&
-               (pos <= 9)&&
-               (!insert(turn, pos-1, game))){
-                //insert(turn, pos-1, game);
+            if((retval == 1) && (pos > 0) && (pos <= 9) &&
+               (game[pos-1] == '*')){
+                insert(turn, pos-1, game);
                 print_board(game);
             } else {
                 printf("Invalid position. Please try again. \n");
                 continue;
             }
+            
             if(is_full(game)||is_solved(game)){
                 break;
             }
